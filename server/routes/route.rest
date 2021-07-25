@@ -1,0 +1,35 @@
+GET http://localhost:4000/stations
+
+###
+
+GET http://localhost:4000/api/v1/stations/60f1db0f8cc89c57e0dbbb49
+
+###
+
+POST http://localhost:4000/stations
+Content-Type: application/json
+
+{
+    "id": 6,
+    "name": "Location 6",
+    "location": {
+        "lat": 35.7959911271121,
+        "lng": -78.85860052240163
+    },
+    "status": "in use"
+}
+
+###
+
+DELETE http://localhost:4000/stations/60f99334c5828c2bd4c10937
+
+###
+
+PATCH http://localhost:4000/api/v1/stations/60f1db0f8cc89c57e0dbbb49 Content-Type: application/json
+
+{
+    "name": "New Name 2",
+    "location": {
+        "lat": 100
+    }
+}
