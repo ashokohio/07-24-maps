@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  target: 'node',
+  target: 'nodemon',
   mode: 'development',
   entry: './server.js',
   resolve: {
