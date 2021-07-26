@@ -20,7 +20,7 @@ router.get("/:id", getStation, (req, res) => {
 // Creating one
 router.post("/", async (req, res) => {
     const station = new Station({
-        id: req.body.id,
+        // id: req.body.id,
         name: req.body.name,
         location: {lat: req.body.location.lat, lng: req.body.location.lng},
         status: req.body.status
@@ -36,9 +36,9 @@ router.post("/", async (req, res) => {
 
 // Updating one
 router.patch("/:id", getStation, async (req, res) => {
-    if (req.body.id != null) {
+    /*if (req.body.id != null) {
         res.station.id = req.body.id
-    }
+    }*/
     if (req.body.name != null) {
         res.station.name = req.body.name
     }
