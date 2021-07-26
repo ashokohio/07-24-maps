@@ -58,16 +58,6 @@ function Map() {
         {name: ' Pedestrian', value: 'WALKING'},
     ]
 
-    // function to handle mode change
-    /*const handleToggleMode = (value) => {
-        setModeValue(value);
-    } */
-
-    // function to handle enter location toggle
-    /*const handleToggleLocation = (e) => {
-        setChecked(e.currentTarget.checked);
-    } */
-
     // functions to handle autocomplete search
     const onLoad = (autocomplete) => {
         console.log("autocomplete: ", autocomplete);
@@ -163,13 +153,13 @@ function Map() {
                 }}
                 callback = {(response) => {
                     console.log(response);
-                    let i = 1;
+                    // let i = 1;
                     setDistances(response.rows[0].elements.map(
-                        el => [ i++, (el.status === 'OK' ? el.distance.text : "No " + modeValue + " available") ]
+                        el => [ /*i++*/ el._id, (el.status === 'OK' ? el.distance.text : "No " + modeValue + " available") ]
                     ));
-                    i = 1;
+                    // i = 1;
                     setDurations(response.rows[0].elements.map(
-                        el => [ i++, (el.status === 'OK' ? el.duration.text : "") ]
+                        el => [ /*i++*/ el._id, (el.status === 'OK' ? el.duration.text : "") ]
                     ));
                 }}
                 />)}
@@ -222,7 +212,7 @@ function Map() {
                                 strokeColor: strokeColor,
                                 scale: 2.05
                             }}
-                            onClick={() => handleToggleOpen(item.name)}
+                            onClick={() => handleToggleOpen(item._id)}
                             >
                                 {
                                     // "if statement" that opens an InfoWindow if this is the selected station

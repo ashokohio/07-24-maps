@@ -27,8 +27,8 @@ function Sidebar() {
                     && ([...markers]
                         .sort(
                             function(a, b) {
-                                return parseFloat( distances.find( el => el[0] === a.id )[1], 10 )
-                                - parseFloat( distances.find( el => el[0] === b.id )[1], 10 );
+                                return parseFloat( distances.find( el => el[0] === a._id )[1], 10 )
+                                - parseFloat( distances.find( el => el[0] === b._id )[1], 10 );
                             }
                         )
                         .map( item => {
@@ -37,8 +37,8 @@ function Sidebar() {
                         + item.location.lat + ","
                         + item.location.lng;
                         // get distance from distances array
-                        let distance = distances.find(el => el[0] === item.id);
-                        let duration = durations.find(el => el[0] === item.id);
+                        let distance = distances.find(el => el[0] === item._id);
+                        let duration = durations.find(el => el[0] === item._id);
                         let variant = "success";
                         if (item.status === "in use") variant = "warning";
                         else if (item.status === "out of order") variant = "danger";
@@ -46,10 +46,10 @@ function Sidebar() {
                         // if item is the selected station, return the "selected" info card
                         if (item.name === selection) {
                             return (
-                                <Card key={item.id}
+                                <Card key={item._id}
                                 border="dark"
                                 style={{width: '25rem', margin: '5px'}}
-                                onClick={() => handleClick(item.name)}
+                                onClick={() => handleClick(item._id)}
                                 >
                                     <Card.Body
                                     bsPrefix="card-body">
@@ -71,11 +71,11 @@ function Sidebar() {
                             )
                         } else { // else, return the greyed info card
                             return (
-                                <Card key={item.id}
+                                <Card key={item._id}
                                 border="dark"
                                 bg="secondary"
                                 style={{width: '25rem', margin: '5px'}}
-                                onClick={() => handleClick(item.name)}
+                                onClick={() => handleClick(item._id)}
                                 >
                                     <Card.Body
                                     bsPrefix="card-body">
