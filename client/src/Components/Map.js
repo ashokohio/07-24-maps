@@ -23,7 +23,7 @@ function Map() {
     const [currentPosition, setCurrentPosition] = useState({});
 
     // state: user's custom input
-    const [customPosition, setCustomPosition] = useState({});
+    // const [customPosition, setCustomPosition] = useState({});
     const [checked, setChecked] = useState(false);
     const [autocomplete, setAutocomplete] = useState(null);
 
