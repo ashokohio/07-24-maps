@@ -2,9 +2,9 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "engine": {
-    "node": "14.x",
+    "node": "14.17.0",
     "npm": "7.18.1"
   },
   "scripts": {
