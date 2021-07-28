@@ -1,10 +1,10 @@
 const mongoose = require("mongoose")
 
 const stationSchema = new mongoose.Schema({
-    /*id: {
+    id: {
         type: Number,
         required: true
-    },*/
+    },
     name: {
         type: String,
         required: true

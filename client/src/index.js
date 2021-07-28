@@ -1,7 +1,8 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
 import { render } from 'react-dom';
 import { LoadScript } from '@react-google-maps/api';
+import 'bootswatch/dist/litera/bootstrap.min.css'
 import './index.css';
 import Map from './Components/Map';
 import Header from './Components/Header';
@@ -11,11 +12,12 @@ import { Container, Row, Col } from 'react-bootstrap';
 import SelectionContext from './Components/ContextProviders/selection-context';
 import DistContext from './Components/ContextProviders/distance-context';
 import DuraContext from './Components/ContextProviders/duration-context';
+import FaveContext from './Components/ContextProviders/favorites-context';
 import axios from "axios";
 
 
 const lib = ['places'];
-const key = 'AIzaSyAwqWc8omSLAp2pwMJBLN5vsHrH4ZUYIlI'; // Google Maps API key (replace)
+const key = "AIzaSyAwqWc8omSLAp2pwMJBLN5vsHrH4ZUYIlI"; // Google Maps API key
 // const baseURL = "https://raw.githubusercontent.com/liangkelei/station-data-01/main/data.json";
 const baseURL = `${process.env.REACT_APP_API_URL}/stations`;
 
@@ -32,6 +34,10 @@ const App = () => {
 
   // parent state: markers (GET request)
   const [markerArray, setMarkerArray] = useState(null);
+
+  // parent state: favorites
+  const [favorites, setFavorites] = useState([]);
+  const fave_value = { favorites, setFavorites };
 
   React.useEffect(() => {
     axios.get(baseURL).then((response) => {
@@ -53,10 +59,12 @@ const App = () => {
           <SelectionContext.Provider value={sel_value}>
             <DistContext.Provider value={dist_value}>
               <DuraContext.Provider value={dura_value}>
-                <Row>
-                  <Col><LoadScript googleMapsApiKey={key} libraries={lib}><Map /></LoadScript></Col>
-                  <Col><Sidebar /></Col>
-                </Row>
+                <FaveContext.Provider value={fave_value}>
+                  <Row>
+                    <Col><LoadScript googleMapsApiKey={key} libraries={lib}><Map /></LoadScript></Col>
+                    <Col><Sidebar /></Col>
+                  </Row>
+                </FaveContext.Provider>
               </DuraContext.Provider>
             </DistContext.Provider>
           </SelectionContext.Provider>

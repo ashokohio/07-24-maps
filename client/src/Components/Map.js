@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
+// import 'bootstrap/dist/css/bootstrap.min.css'
 import React, { useState, useEffect } from "react";
 import { GoogleMap, InfoWindow, Marker, DistanceMatrixService, Autocomplete } from "@react-google-maps/api";
 import MarkerContext from "./ContextProviders/marker-context";
@@ -10,6 +10,9 @@ import DistContext from "./ContextProviders/distance-context";
 import DuraContext from './ContextProviders/duration-context';
 import { Row, Col } from "react-bootstrap";
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
+import FaveContext from "./ContextProviders/favorites-context";
+import {IoStar, IoStarOutline} from 'react-icons/io5';
+
 
 function Map() {
     
@@ -18,6 +21,15 @@ function Map() {
     let { selection, setSelection } = React.useContext(SelectionContext);
     let { distances, setDistances } = React.useContext(DistContext);
     let { durations, setDurations } = React.useContext(DuraContext);
+    let { favorites, setFavorites } = React.useContext(FaveContext);
+
+    let getArray = JSON.parse(localStorage.getItem('favorites') || '0');
+
+    useEffect(() => {
+        if (getArray !== 0) {
+            setFavorites([...getArray]);
+        }
+    }, [])
 
     // state: user's current location
     const [currentPosition, setCurrentPosition] = useState({});
@@ -46,6 +58,7 @@ function Map() {
         }
     }, [checked])
 
+
     // function to update selected station
     const handleToggleOpen = (markerId) => {
         setSelection(markerId);
@@ -63,9 +76,9 @@ function Map() {
         console.log("autocomplete: ", autocomplete);
         setAutocomplete(autocomplete);
     }
-
+    
     const onPlaceChanged = () => {
-        if (autocomplete !== null) {
+        if (autocomplete !== null && autocomplete.getPlace().geometry) {
             console.log(autocomplete.getPlace());
             const customPosition = {
                 lat: autocomplete.getPlace().geometry.location.lat(),
@@ -74,6 +87,36 @@ function Map() {
             setCurrentPosition(customPosition);
         } else {
             console.log("Autocomplete is not loaded yet!");
+        }
+    }
+
+
+    // function handle toggle favorite station
+    const toggleFave = (marker) => {
+        let arr = favorites;
+        let addArr = true;
+
+        arr.map((item, key) => {
+            if (item === marker.id) { // if id is in arr...
+                arr.splice(key, 1); // remove id from arr
+                addArr = false;
+            }
+        });
+
+        if (addArr) { // if id is not in arr...
+            arr.push(marker.id); // add id to arr
+        }
+
+        setFavorites([...arr]); // update favorites
+
+        // add to localStorage
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+
+        let storage = localStorage.getItem('favItem' + (marker.id) || '0');
+        if (storage == null) {
+            localStorage.setItem(('favItem' + (marker.id)), JSON.stringify(marker));
+        } else {
+            localStorage.removeItem('favItem' + (marker.id));
         }
     }
 
@@ -140,11 +183,12 @@ function Map() {
             </ToggleButtonGroup>
             
             <GoogleMap
-            mapContainerStyle={{ height: "700px", width: "100%" }}
+            mapContainerStyle={{ height: "600px", width: "100%" }}
             zoom={13}
             center={currentPosition}
             >
-                {currentPosition.lat && (<DistanceMatrixService
+                {currentPosition.lat && (
+                <DistanceMatrixService
                 options={{
                     destinations: markers.map(station => station.location),
                     origins: [currentPosition],
@@ -153,13 +197,13 @@ function Map() {
                 }}
                 callback = {(response) => {
                     console.log(response);
-                    // let i = 1;
+                    let i = 1;
                     setDistances(response.rows[0].elements.map(
-                        el => [ /*i++*/ el._id, (el.status === 'OK' ? el.distance.text : "No " + modeValue + " available") ]
+                        el => [ i++, (el.status === 'OK' ? el.distance.text : "No " + modeValue + " available") ]
                     ));
-                    // i = 1;
+                    i = 1;
                     setDurations(response.rows[0].elements.map(
-                        el => [ /*i++*/ el._id, (el.status === 'OK' ? el.duration.text : "") ]
+                        el => [ i++, (el.status === 'OK' ? el.duration.text : "") ]
                     ));
                 }}
                 />)}
@@ -202,7 +246,7 @@ function Map() {
                         }
 
                         return (
-                            <Marker key={item.name}
+                            <Marker key={item.id}
                             position={item.location}
                             icon={{
                                 path: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z",
@@ -212,7 +256,7 @@ function Map() {
                                 strokeColor: strokeColor,
                                 scale: 2.05
                             }}
-                            onClick={() => handleToggleOpen(item._id)}
+                            onClick={() => handleToggleOpen(item.name)}
                             >
                                 {
                                     // "if statement" that opens an InfoWindow if this is the selected station
@@ -222,11 +266,22 @@ function Map() {
                                             <div>
                                                 <h6>{item.name} <Button
                                                 disabled size="sm"
-                                                style={{margin: '2px 2px 2px 10px', padding: '0px 5px 0px 5px'}}
+                                                style={{margin: '1px 8px 2px 8px', padding: '0px 5px 0px 5px'}}
                                                 variant={variant}
                                                 >
                                                     {item.status}
-                                                </Button></h6>
+                                                </Button>
+                                                {
+                                                    favorites.includes(item.id) ? 
+                                                        (<IoStar
+                                                            onClick={() => toggleFave(item)}
+                                                            style={{color: '#0275d8', margin: '0px 0px 3px 0px'}} 
+                                                        />) : (<IoStarOutline
+                                                            onClick={() => toggleFave(item)}
+                                                            style={{color: '#0275d8', margin: '0px 0px 3px 0px'}} 
+                                                        />)
+                                                }
+                                                </h6>
                                                 <p>{distance[1]}, {duration[1]} away</p>
                                                 <Button
                                                 href={mapLink}
