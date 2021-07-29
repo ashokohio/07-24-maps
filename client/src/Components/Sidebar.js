@@ -140,7 +140,7 @@ function Sidebar() {
                                             }
                                         </Card.Title>
                                         <Card.Subtitle
-                                        bsPrefix="card-subtitle">{distance[1]}, {duration[1]} away</Card.Subtitle>
+                                        bsPrefix="card-subtitle">{distance[1]}{duration[1]}</Card.Subtitle>
                                         <Card.Text
                                         bsPrefix="card-text">This is the charging station at {item.name}.</Card.Text>
                                         <Button
@@ -182,7 +182,7 @@ function Sidebar() {
                                             }
                                         </Card.Title>
                                         <Card.Subtitle
-                                        bsPrefix="card-subtitle">{distance[1]}, {duration[1]} away</Card.Subtitle>
+                                        bsPrefix="card-subtitle">{distance[1]}{duration[1]}</Card.Subtitle>
                                         <Card.Text
                                         bsPrefix="card-text">This is the charging station at {item.name}.</Card.Text>
                                     </Card.Body>

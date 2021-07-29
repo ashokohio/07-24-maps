@@ -203,11 +203,11 @@ function Map() {
                     console.log(response);
                     let i = 1;
                     setDistances(response.rows[0].elements.map(
-                        el => [ i++, (el.status === 'OK' ? el.distance.text : "No " + modeValue + " available") ]
+                        el => [ i++, (el.status === 'OK' ? el.distance.text : "No " + modeValue.toLowerCase() + " available") ]
                     ));
                     i = 1;
                     setDurations(response.rows[0].elements.map(
-                        el => [ i++, (el.status === 'OK' ? el.duration.text : "") ]
+                        el => [ i++, (el.status === 'OK' ?  ", " + el.duration.text + " away" : "") ]
                     ));
                 }}
                 />)}
@@ -292,7 +292,7 @@ function Map() {
                                                         />)
                                                 }
                                                 </h6>
-                                                <p>{distance[1]}, {duration[1]} away</p>
+                                                <p>{distance[1]}{duration[1]}</p>
                                                 <Button
                                                 href={mapLink}
                                                 variant="primary"
