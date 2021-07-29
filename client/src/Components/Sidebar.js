@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import MarkerContext from "./ContextProviders/marker-context";
 import SelectionContext from "./ContextProviders/selection-context";
-import { Card, Button, Container } from 'react-bootstrap';
+import { Card, Button, Container, DropdownButton, Dropdown } from 'react-bootstrap';
 import DistContext from './ContextProviders/distance-context';
 import DuraContext from './ContextProviders/duration-context';
 import FaveContext from './ContextProviders/favorites-context';
 import {IoStar, IoStarOutline} from 'react-icons/io5';
+import FilterContext from './ContextProviders/filter-context';
 
 function Sidebar() {
 
@@ -15,6 +16,7 @@ function Sidebar() {
     let distances = React.useContext(DistContext);
     let durations = React.useContext(DuraContext);
     let { favorites, setFavorites } = React.useContext(FaveContext);
+    let { filter, setFilter } = React.useContext(FilterContext);
 
     let getArray = JSON.parse(localStorage.getItem('favorites') || '0');
 
@@ -58,9 +60,29 @@ function Sidebar() {
         }
     }
 
+    // function to handle dropdown filters
+    let filters = [
+        "All stations",
+        "Favorites only",
+        "Working stations"
+    ]
+
+    const handleFilter = (e) => {
+        setFilter(e);
+    }
+
     return (
         <div>
             <Container>
+                <DropdownButton
+                id="dropdown-filters"
+                title="Select filter"
+                onSelect={handleFilter}>
+                    <Dropdown.Item eventKey="option-0">{filters[0]}</Dropdown.Item>
+                    <Dropdown.Item eventKey="option-1">{filters[1]}</Dropdown.Item>
+                    <Dropdown.Item eventKey="option-2">{filters[2]}</Dropdown.Item>
+                </DropdownButton>
+
                 {
                     (distances.distances.length > 0)
                     && (durations.durations.length > 0)
@@ -72,6 +94,12 @@ function Sidebar() {
                             }
                         )
                         .map( item => {
+
+                        if (filter === "option-1" && !favorites.includes(item.id)) {
+                            return;
+                        } else if (filter === "option-2" && item.status === "out of order") {
+                            return;
+                        }
                         // link directs to Google Maps route planner
                         let mapLink = "https://www.google.com/maps/dir/?api=1&destination="
                         + item.location.lat + ","

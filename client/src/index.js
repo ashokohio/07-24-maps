@@ -14,6 +14,7 @@ import DistContext from './Components/ContextProviders/distance-context';
 import DuraContext from './Components/ContextProviders/duration-context';
 import FaveContext from './Components/ContextProviders/favorites-context';
 import axios from "axios";
+import FilterContext from './Components/ContextProviders/filter-context';
 
 
 const lib = ['places'];
@@ -39,6 +40,10 @@ const App = () => {
   const [favorites, setFavorites] = useState([]);
   const fave_value = { favorites, setFavorites };
 
+  // parent state: filter
+  const [filter, setFilter] = useState("option-0");
+  const filt_value = { filter, setFilter }
+
   React.useEffect(() => {
     axios.get(baseURL).then((response) => {
         setMarkerArray(response.data);
@@ -60,10 +65,12 @@ const App = () => {
             <DistContext.Provider value={dist_value}>
               <DuraContext.Provider value={dura_value}>
                 <FaveContext.Provider value={fave_value}>
-                  <Row>
-                    <Col><LoadScript googleMapsApiKey={key} libraries={lib}><Map /></LoadScript></Col>
-                    <Col><Sidebar /></Col>
-                  </Row>
+                  <FilterContext.Provider value={filt_value}>
+                    <Row>
+                      <Col><LoadScript googleMapsApiKey={key} libraries={lib}><Map /></LoadScript></Col>
+                      <Col><Sidebar /></Col>
+                    </Row>                    
+                  </FilterContext.Provider>
                 </FaveContext.Provider>
               </DuraContext.Provider>
             </DistContext.Provider>

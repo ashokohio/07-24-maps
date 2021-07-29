@@ -12,6 +12,7 @@ import { Row, Col } from "react-bootstrap";
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import FaveContext from "./ContextProviders/favorites-context";
 import {IoStar, IoStarOutline} from 'react-icons/io5';
+import FilterContext from "./ContextProviders/filter-context";
 
 
 function Map() {
@@ -22,6 +23,7 @@ function Map() {
     let { distances, setDistances } = React.useContext(DistContext);
     let { durations, setDurations } = React.useContext(DuraContext);
     let { favorites, setFavorites } = React.useContext(FaveContext);
+    let { filter, setFilter } = React.useContext(FilterContext);
 
     let getArray = JSON.parse(localStorage.getItem('favorites') || '0');
 
@@ -134,6 +136,7 @@ function Map() {
                 >
                     Custom origin
                 </ToggleButton></ButtonGroup></Col>
+
                 <Col>{
                     checked && (
                         <Autocomplete
@@ -161,6 +164,7 @@ function Map() {
                 }</Col>
                   
             </Row>
+
             <ToggleButtonGroup
             name="radioMode"
             style={{margin:"10px 0px 10px 0px"}}>
@@ -223,6 +227,12 @@ function Map() {
                 {
                     // map function to create markers for each station
                     currentPosition.lat && (markers.map(item => {
+
+                        if (filter === "option-1" && !favorites.includes(item.id)) {
+                            return;
+                        } else if (filter === "option-2" && item.status==="out of order") {
+                            return;
+                        }
 
                         // link directs to Google Maps route planner
                         let mapLink = "https://www.google.com/maps/dir/?api=1&destination=" 
