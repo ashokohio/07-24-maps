@@ -188,7 +188,7 @@ function Map() {
             
             <GoogleMap
             mapContainerStyle={{ height: "600px", width: "100%" }}
-            zoom={13}
+            zoom={15}
             center={currentPosition}
             >
                 {currentPosition.lat && (
@@ -264,7 +264,7 @@ function Map() {
                                 fillOpacity: 1,
                                 strokeWeight: 3,
                                 strokeColor: strokeColor,
-                                scale: 1.5
+                                scale: 2.0
                             }}
                             onClick={() => handleToggleOpen(item.name)}
                             >
