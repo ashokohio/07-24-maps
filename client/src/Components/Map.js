@@ -187,7 +187,7 @@ function Map() {
             </ToggleButtonGroup>
             
             <GoogleMap
-            mapContainerStyle={{ height: "600px", width: "100%" }}
+            mapContainerStyle={{ height: "500px", width: "470px" }}
             zoom={15}
             center={currentPosition}
             >

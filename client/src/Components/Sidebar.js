@@ -19,6 +19,7 @@ function Sidebar() {
     let { filter, setFilter } = React.useContext(FilterContext);
 
     let getArray = JSON.parse(localStorage.getItem('favorites') || '0');
+    let [filterNum, setFilterNum] = React.useState(0);
 
     useEffect(() => {
         if (getArray !== 0) {
@@ -69,6 +70,7 @@ function Sidebar() {
 
     const handleFilter = (e) => {
         setFilter(e);
+        setFilterNum(parseInt(e[7]));
     }
 
     return (
@@ -76,14 +78,14 @@ function Sidebar() {
             <Container>
                 <DropdownButton
                 id="dropdown-filters"
-                title="Select filter"
+                title={filters[filterNum]}
                 onSelect={handleFilter}>
                     <Dropdown.Item eventKey="option-0">{filters[0]}</Dropdown.Item>
                     <Dropdown.Item eventKey="option-1">{filters[1]}</Dropdown.Item>
                     <Dropdown.Item eventKey="option-2">{filters[2]}</Dropdown.Item>
                 </DropdownButton>
 
-                <div style={{height: '650px', overflowY: 'scroll'}}>
+                <div style={{height: '550px', width: '393px', overflowY: 'scroll'}}>
                     {
                         (distances.distances.length > 0)
                         && (durations.durations.length > 0)
@@ -116,7 +118,7 @@ function Sidebar() {
                             if (item.name === selection) {
                                 return (
                                     <Card key={item.id}
-                                    style={{width: '25rem', margin: '5px'}}
+                                    style={{width: '95%', margin: '5px'}}
                                     onClick={() => handleClick(item.name)}
                                     >
                                         <Card.Body
@@ -158,7 +160,7 @@ function Sidebar() {
                                 return (
                                     <Card key={item.id}
                                     bg="secondary"
-                                    style={{width: '25rem', margin: '5px'}}
+                                    style={{width: '95%', margin: '5px'}}
                                     onClick={() => handleClick(item.name)}
                                     >
                                         <Card.Body
