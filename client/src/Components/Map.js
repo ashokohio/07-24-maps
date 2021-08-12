@@ -148,6 +148,11 @@ function Map() {
         setFilterNum(parseInt(e[7]));
     }
 
+    // function to handle mode change
+    let handleModeChange = (e) => {
+        setModeValue(e);
+    }
+
     // function to handle directions service callback
     let directionsCallback = (response) => {
         console.log(response);
@@ -224,7 +229,7 @@ function Map() {
                                     id={mode.value}
                                     value={mode.value}
                                     checked={modeValue === mode.value}
-                                    onChange={(e) => setModeValue(e.currentTarget.value)}
+                                    onChange={(e) => handleModeChange(e.currentTarget.value)}
                                     >
                                         {mode.name}
                                     </ToggleButton>
@@ -355,7 +360,7 @@ function Map() {
                                             // "if statement" that opens an InfoWindow if this is the selected station
                                             (selection && selection.id === item.id) && 
                                             (
-                                                <InfoWindow onCloseClick={() => handleToggleOpen(null)}>
+                                                <InfoWindow>
                                                     <div>
                                                         <h6>{item.name} <Button
                                                         disabled size="sm"
