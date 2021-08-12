@@ -144,6 +144,8 @@ function Map() {
     ]
 
     const handleFilter = (e) => {
+        setSelection(null);
+        setDirections(null);
         setFilter(e);
         setFilterNum(parseInt(e[7]));
     }
