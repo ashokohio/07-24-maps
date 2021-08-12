@@ -27,8 +27,8 @@ function Sidebar() {
     }, [])
 
     // function to updated selected station
-    const handleClick = (markerId) => {
-        setSelection(markerId);
+    const handleClick = (marker) => {
+        setSelection(marker);
     }
 
     // function handle toggle favorite station
@@ -96,11 +96,11 @@ function Sidebar() {
                                 else if (item.status === "out of order") variant = "danger";
 
                                 // if item is the selected station, return the "selected" info card
-                                if (item.name === selection) {
+                                if (selection && item.id === selection.id) {
                                     return (
                                         <Card key={item.id}
                                         style={{width: '95%', margin: '5px'}}
-                                        onClick={() => handleClick(item.name)}
+                                        onClick={() => handleClick(item)}
                                         >
                                             <Card.Body
                                             bsPrefix="card-body">
@@ -142,7 +142,7 @@ function Sidebar() {
                                         <Card key={item.id}
                                         bg="secondary"
                                         style={{width: '95%', margin: '5px'}}
-                                        onClick={() => handleClick(item.name)}
+                                        onClick={() => handleClick(item)}
                                         >
                                             <Card.Body
                                             bsPrefix="card-body">

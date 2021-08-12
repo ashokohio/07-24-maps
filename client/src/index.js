@@ -24,7 +24,8 @@ const baseURL = `${process.env.REACT_APP_API_URL}/stations`;
 
 const App = () => {
   // parent state to store selected marker
-  const [selection, setSelection] = useState("");
+  // const [selection, setSelection] = useState("");
+  const [selection, setSelection] = useState(null);
   const sel_value = { selection, setSelection };
 
   // parent state to store travel info
@@ -55,7 +56,6 @@ const App = () => {
 
   // using Bootstrap Container, Row, and Col to make layout
   // MarkerProvider provides an array of charging station data
-  // SelectionContext provider stores the name of the selected marker
   return (
     <div>
       <Container>

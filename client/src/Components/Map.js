@@ -1,6 +1,6 @@
 // import 'bootstrap/dist/css/bootstrap.min.css'
 import React, { useState, useEffect } from "react";
-import { GoogleMap, InfoWindow, Marker, DistanceMatrixService, Autocomplete } from "@react-google-maps/api";
+import { GoogleMap, InfoWindow, Marker, DistanceMatrixService, Autocomplete, DirectionsService, DirectionsRenderer } from "@react-google-maps/api";
 import MarkerContext from "./ContextProviders/marker-context";
 import SelectionContext from "./ContextProviders/selection-context";
 import Button from 'react-bootstrap/Button';
@@ -47,8 +47,15 @@ function Map() {
     // state: filter
     let [filterNum, setFilterNum] = React.useState(0);
 
+    // state: directions response
+    let [directions, setDirections] = React.useState(null);
+
     // function to load onto current position
     const success = position => {
+        if (!selection) {
+            setDirections(null);
+        }
+
         const currentPosition = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
@@ -65,8 +72,8 @@ function Map() {
 
 
     // function to update selected station
-    const handleToggleOpen = (markerId) => {
-        setSelection(markerId);
+    const handleToggleOpen = (marker) => {
+        setSelection(marker);
     }
 
     // travel mode buttons
@@ -83,6 +90,10 @@ function Map() {
     }
     
     const onPlaceChanged = () => {
+        if (!selection) {
+            setDirections(null);
+        }
+
         if (autocomplete !== null && autocomplete.getPlace().geometry) {
             console.log(autocomplete.getPlace());
             const customPosition = {
@@ -135,6 +146,19 @@ function Map() {
     const handleFilter = (e) => {
         setFilter(e);
         setFilterNum(parseInt(e[7]));
+    }
+
+    // function to handle directions service callback
+    let directionsCallback = (response) => {
+        console.log(response);
+
+        if (response !== null) {
+            if (response.status === 'OK') {
+              setDirections(response);
+            } else {
+              setDirections(null);
+            }
+        }
     }
 
     return (
@@ -224,9 +248,32 @@ function Map() {
                 <Row>
                     <GoogleMap
                     mapContainerStyle={{ height: "500px" }}
-                    zoom={15}
+                    zoom={14}
                     center={currentPosition}
                     >
+                        {
+                            (selection) && (
+                                <DirectionsService
+                                 options={{
+                                     destination: selection.location,
+                                     origin: currentPosition,
+                                     travelMode: modeValue
+                                 }}
+                                 callback={directionsCallback}
+                                />
+                            )
+                        }
+
+                        {
+                            directions && (
+                                <DirectionsRenderer
+                                 options={{
+                                     directions: directions
+                                 }}
+                                />
+                            )
+                        }
+
                         {currentPosition.lat && (
                         <DistanceMatrixService
                         options={{
@@ -302,13 +349,13 @@ function Map() {
                                         strokeColor: strokeColor,
                                         scale: 2.0
                                     }}
-                                    onClick={() => handleToggleOpen(item.name)}
+                                    onClick={() => handleToggleOpen(item)}
                                     >
                                         {
                                             // "if statement" that opens an InfoWindow if this is the selected station
-                                            selection === item.name && 
+                                            (selection && selection.id === item.id) && 
                                             (
-                                                <InfoWindow onCloseClick={() => handleToggleOpen("")}>
+                                                <InfoWindow onCloseClick={() => handleToggleOpen(null)}>
                                                     <div>
                                                         <h6>{item.name} <Button
                                                         disabled size="sm"
