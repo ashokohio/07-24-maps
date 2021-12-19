@@ -1,5 +1,5 @@
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { render } from 'react-dom';
 import { LoadScript } from '@react-google-maps/api';
 import 'bootswatch/dist/litera/bootstrap.min.css'
@@ -16,6 +16,10 @@ import FaveContext from './Components/ContextProviders/favorites-context';
 import axios from "axios";
 import FilterContext from './Components/ContextProviders/filter-context';
 
+import Lottie from "react-lottie";
+
+import * as pinjump from "./lf30_editor_mwiixnet.json";
+
 
 const lib = ['places'];
 const key = "AIzaSyAwqWc8omSLAp2pwMJBLN5vsHrH4ZUYIlI"; // Google Maps API key
@@ -23,6 +27,30 @@ const key = "AIzaSyAwqWc8omSLAp2pwMJBLN5vsHrH4ZUYIlI"; // Google Maps API key
 const baseURL = `${process.env.REACT_APP_API_URL}/stations`;
 
 const App = () => {
+
+  // loading screen stuff
+  // set up default options for Lottie animation
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: pinjump.default,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  const [isLoading, setIsLoading] = React.useState();
+
+  const handleLoading = () => {
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    window.addEventListener("load", handleLoading);
+    return() => window.removeEventListener("load", handleLoading);
+  }, [])
+
+
   // parent state to store selected marker
   // const [selection, setSelection] = useState("");
   const [selection, setSelection] = useState(null);
@@ -45,6 +73,7 @@ const App = () => {
   const [filter, setFilter] = useState("option-0");
   const filt_value = { filter, setFilter }
 
+
   React.useEffect(() => {
     axios.get(baseURL).then((response) => {
         setMarkerArray(response.data);
@@ -54,9 +83,11 @@ const App = () => {
 
   if (!markerArray) return null;
 
+  
+
   // using Bootstrap Container, Row, and Col to make layout
   // MarkerProvider provides an array of charging station data
-  return (
+  return (<>{!isLoading ? (
     <div>
       <Container>
         <Row><Header /></Row>
@@ -78,7 +109,11 @@ const App = () => {
         </MarkerContext.Provider>
       </Container>
     </div>
-  );
+  ) : (
+    <div>
+      <Lottie options={defaultOptions} height={200} width={200} />
+    </div>
+  )}</>)
 };
 
 render(<App />, document.getElementById('root'));
