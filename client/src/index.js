@@ -89,8 +89,8 @@ const App = () => {
 
   // using Bootstrap Container, Row, and Col to make layout
   // MarkerProvider provides an array of charging station data
-  return (<>{!isLoading ? (
-    <div>
+  return (<>{!isLoading ? 
+    <>
       <Container>
         <Row><Header /></Row>
         <MarkerContext.Provider value={markerArray}>
@@ -110,12 +110,12 @@ const App = () => {
           </SelectionContext.Provider>
         </MarkerContext.Provider>
       </Container>
-    </div>
-  ) : (
+    </>
+   : 
     <div>
       <Lottie options={defaultOptions} height={200} width={200} />
     </div>
-  )}</>)
+  }</>)
 };
 
 render(<App />, document.getElementById('root'));
