@@ -31,7 +31,7 @@ function Sidebar() {
         setSelection(marker);
     }
 
-    // function handle toggle favorite station
+    // function to handle toggle favorite station
     const toggleFave = (marker) => {
         let arr = favorites;
         let addArr = true;
@@ -49,7 +49,12 @@ function Sidebar() {
 
         setFavorites([...arr]); // update favorites
 
-        // add to localStorage
+        // add or remove favorite in local storage
+        updateLocalStorage(marker);
+    }
+
+    // function to add/remove favorites in Local Storage
+    const updateLocalStorage = (marker) => {
         localStorage.setItem("favorites", JSON.stringify(favorites));
 
         let storage = localStorage.getItem('favItem' + (marker.id) || '0');

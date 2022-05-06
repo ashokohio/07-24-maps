@@ -42,7 +42,10 @@ Takes an autocomplete object as an argument and updates the autocomplete object 
 Updates the user's current location (currentPosition state) with the latitude and longitude coordinates from the current autocomplete object (autocomplete state)
 
 ###### toggleFave(marker)
-Takes a station marker as an argument and updates array of favorited stations by adding or removing a station from that array (favorites state); also updates Local Storage accordingly
+Takes a station marker as an argument and updates array of favorited stations by adding or removing a station from that array (favorites state)
+
+###### updateLocalStorage(marker)
+Takes a station marker as an argument and removes or adds the marker as a favorite in Local Storage
 
 ###### handleFilter(e)
 Takes a dropdown filter selection event as an argument and updates the station list filter accordingly (filter state)
@@ -64,4 +67,7 @@ Notes:
 Takes a station marker as an argument and updates the selected station (selection state)
 
 ###### toggleFave(marker)
-Takes a station marker as an argument and updates array of favorited stations by adding or removing a station from that array (favorites state); also updates Local Storage accordingly
+Takes a station marker as an argument and updates array of favorited stations by adding or removing a station from that array (favorites state)
+
+###### updateLocalStorage(marker)
+Takes a station marker as an argument and removes or adds the marker as a favorite in Local Storage
