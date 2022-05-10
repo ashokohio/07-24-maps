@@ -182,12 +182,6 @@ function Map() {
     // elevator to use Google Maps ElevationService API
     let elevator = new window.google.maps.ElevationService();
 
-    // state to store path (array containing latlng objects)
-    // let [path, setPath] = useState(null);
-
-    // state to store samples (number of points to sample along path)
-    // let [samples, setSamples] = useState(0);
-
     // function to handle battery usage button
     let handleBatteryButton = () => {
         console.log("handleBatteryButton called");

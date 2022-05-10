@@ -7,6 +7,7 @@ import DuraContext from './ContextProviders/duration-context';
 import FaveContext from './ContextProviders/favorites-context';
 import {IoStar, IoStarOutline} from 'react-icons/io5';
 import FilterContext from './ContextProviders/filter-context';
+import PathContext from './ContextProviders/path-context';
 
 function Sidebar() {
 
@@ -17,6 +18,7 @@ function Sidebar() {
     let durations = React.useContext(DuraContext);
     let { favorites, setFavorites } = React.useContext(FaveContext);
     let { filter, setFilter } = React.useContext(FilterContext);
+    let { path, setPath } = React.useContext(PathContext);
 
     let getArray = JSON.parse(localStorage.getItem('favorites') || '0');
 
@@ -65,9 +67,34 @@ function Sidebar() {
         }
     }
 
+    // elevator to use Google Maps ElevationService API
+    let elevator = new window.google.maps.ElevationService();
+
+    // function to handle battery usage button
     let handleBatteryButton = () => {
         console.log("handleBatteryButton called");
 
+        // make elevation request
+        elevationRequest();
+    }
+
+    // function to make elevation request
+    let elevationRequest = () => {
+        console.log("elevationRequest called");
+        console.log("path: " + JSON.stringify(path.path));
+        console.log("sample: " + path.samples);
+
+        elevator.getElevationAlongPath(path, (results, status) => {
+            if (status == "OK") {
+                console.log("status OK");
+                console.log("results: " + JSON.stringify(results));
+
+                // figure out how to send this information to MongoDB database
+            } else {
+                console.log("status not OK");
+            }
+        }
+        );
     }
 
     return (
