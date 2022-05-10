@@ -17,8 +17,8 @@ function Sidebar() {
     let distances = React.useContext(DistContext);
     let durations = React.useContext(DuraContext);
     let { favorites, setFavorites } = React.useContext(FaveContext);
-    let filter = React.useContext(FilterContext);
-    let path = React.useContext(PathContext);
+    let {filter, setFilter} = React.useContext(FilterContext);
+    let {path, setPath} = React.useContext(PathContext);
 
     let getArray = JSON.parse(localStorage.getItem('favorites') || '0');
 
@@ -68,7 +68,7 @@ function Sidebar() {
     }
 
     // elevator to use Google Maps ElevationService API
-    /*let elevator = new window.google.maps.ElevationService();
+    let elevator = new window.google.maps.ElevationService();
 
     // function to handle battery usage button
     let handleBatteryButton = () => {
@@ -82,7 +82,7 @@ function Sidebar() {
     let elevationRequest = () => {
         console.log("elevationRequest called");
         console.log("path: " + JSON.stringify(path.path));
-        console.log("sample: " + path.samples);
+        console.log("samples: " + path.samples);
 
         elevator.getElevationAlongPath(path, (results, status) => {
             if (status == "OK") {
@@ -95,11 +95,7 @@ function Sidebar() {
             }
         }
         );
-    } */
-
-    let handleBatteryButton = () => {
-        console.log("hi");
-    }
+    } 
 
     return (
         <div>

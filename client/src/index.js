@@ -75,10 +75,12 @@ const App = () => {
                 <FaveContext.Provider value={fave_value}>
                   <FilterContext.Provider value={filt_value}>
                     <PathContext.Provider value={path_value}>
-                      <Row>
-                        <Col><LoadScript googleMapsApiKey={key} libraries={lib}><Map /></LoadScript></Col>
-                        <Col><Sidebar /></Col>
-                      </Row>  
+                        <LoadScript googleMapsApiKey={key} libraries={lib}>
+                          <Row>
+                            <Col><Map /></Col>
+                            <Col><Sidebar /></Col>
+                          </Row>
+                        </LoadScript>
                     </PathContext.Provider>
                   </FilterContext.Provider>
                 </FaveContext.Provider>
