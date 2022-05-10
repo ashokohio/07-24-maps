@@ -65,6 +65,10 @@ function Sidebar() {
         }
     }
 
+    let handleBatteryButton = () => {
+        console.log("handleBatteryButton (Sidebar) called")
+    }
+
     return (
         <div>
             <Container>
@@ -138,6 +142,13 @@ function Sidebar() {
                                                 target="_blank"
                                                 >
                                                     Navigate
+                                                </Button>
+                                                <Button
+                                                    style={{marginLeft: "5px",}}
+                                                    onClick={handleBatteryButton}
+                                                    variant="primary"
+                                                    target="_blank">
+                                                        Battery Calculation
                                                 </Button>
                                             </Card.Body>
                                         </Card>

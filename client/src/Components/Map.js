@@ -162,15 +162,56 @@ function Map() {
 
     // function to handle directions service callback
     let directionsCallback = (response) => {
-        console.log(response);
+        console.log("directions service response: " + JSON.stringify(response));
 
         if (response !== null) {
             if (response.status === 'OK') {
               setDirections(response);
+              setPath(response.routes[0].overview_path);
+              setSamples(response.routes[0].overview_path.length < 512 ? response.routes[0].overview_path.length : 512);
             } else {
               setDirections(null);
             }
         }
+    }
+
+    // elevator to use Google Maps ElevationService API
+    let elevator = new window.google.maps.ElevationService();
+
+    // state to store path (array containing latlng objects)
+    let [path, setPath] = useState(null);
+
+    // state to store samples (number of points to sample along path)
+    let [samples, setSamples] = useState(0);
+
+    // function to handle battery usage button
+    let handleBatteryButton = () => {
+        console.log("handleBatteryButton called");
+
+        // make elevation request
+        elevationRequest();
+    }
+
+    // function to make elevation request
+    let elevationRequest = () => {
+        console.log("elevationRequest called");
+        console.log("path: " + JSON.stringify(path));
+        console.log("sample: " + Number(path.length));
+
+        let pathElevation = elevator.getElevationAlongPath({
+            path: path,
+            samples: samples
+        }, (results, status) => {
+            if (status == "OK") {
+                console.log("status OK");
+                console.log("results: " + JSON.stringify(results));
+
+                // figure out how to send this information to MongoDB database
+            } else {
+                console.log("status not OK");
+            }
+        }
+        );
     }
 
     return (
@@ -395,6 +436,13 @@ function Map() {
                                                         target="_blank"
                                                         >
                                                             Navigate
+                                                        </Button>
+                                                        <Button
+                                                        style={{marginLeft: "5px",}}
+                                                        onClick={handleBatteryButton}
+                                                        variant="primary"
+                                                        target="_blank">
+                                                            Battery Calculation
                                                         </Button>
                                                     </div>
                                                 </InfoWindow>
