@@ -15,6 +15,7 @@ import DuraContext from './Components/ContextProviders/duration-context';
 import FaveContext from './Components/ContextProviders/favorites-context';
 import axios from "axios";
 import FilterContext from './Components/ContextProviders/filter-context';
+import PathContext from './Components/ContextProviders/path-context';
 
 const lib = ['places'];
 const key = "AIzaSyAwqWc8omSLAp2pwMJBLN5vsHrH4ZUYIlI"; // Google Maps API key
@@ -43,7 +44,11 @@ const App = () => {
 
   // parent state: filter
   const [filter, setFilter] = useState("option-0");
-  const filt_value = { filter, setFilter }
+  const filt_value = { filter, setFilter };
+
+  // parent state: path
+  const [path, setPath] = useState(null);
+  const path_value = { path, setPath };
 
 
   React.useEffect(() => {
@@ -69,10 +74,12 @@ const App = () => {
               <DuraContext.Provider value={dura_value}>
                 <FaveContext.Provider value={fave_value}>
                   <FilterContext.Provider value={filt_value}>
-                    <Row>
-                      <Col><LoadScript googleMapsApiKey={key} libraries={lib}><Map /></LoadScript></Col>
-                      <Col><Sidebar /></Col>
-                    </Row>                    
+                    <PathContext.Provider value={path_value}>
+                      <Row>
+                        <Col><LoadScript googleMapsApiKey={key} libraries={lib}><Map /></LoadScript></Col>
+                        <Col><Sidebar /></Col>
+                      </Row>  
+                    </PathContext.Provider>
                   </FilterContext.Provider>
                 </FaveContext.Provider>
               </DuraContext.Provider>

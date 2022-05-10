@@ -13,6 +13,7 @@ import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import FaveContext from "./ContextProviders/favorites-context";
 import {IoStar, IoStarOutline} from 'react-icons/io5';
 import FilterContext from "./ContextProviders/filter-context";
+import PathContext from "./ContextProviders/path-context";
 
 
 function Map() {
@@ -24,6 +25,7 @@ function Map() {
     let { durations, setDurations } = React.useContext(DuraContext);
     let { favorites, setFavorites } = React.useContext(FaveContext);
     let { filter, setFilter } = React.useContext(FilterContext);
+    let { path, setPath } = React.useContext(PathContext);
 
     let getArray = JSON.parse(localStorage.getItem('favorites') || '0');
 
@@ -167,8 +169,10 @@ function Map() {
         if (response !== null) {
             if (response.status === 'OK') {
               setDirections(response);
-              setPath(response.routes[0].overview_path);
-              setSamples(response.routes[0].overview_path.length < 512 ? response.routes[0].overview_path.length : 512);
+              setPath({
+                  path: response.routes[0].overview_path,
+                  samples: response.routes[0].overview_path.length < 512 ? response.routes[0].overview_path.length : 512
+              });
             } else {
               setDirections(null);
             }
@@ -179,10 +183,10 @@ function Map() {
     let elevator = new window.google.maps.ElevationService();
 
     // state to store path (array containing latlng objects)
-    let [path, setPath] = useState(null);
+    // let [path, setPath] = useState(null);
 
     // state to store samples (number of points to sample along path)
-    let [samples, setSamples] = useState(0);
+    // let [samples, setSamples] = useState(0);
 
     // function to handle battery usage button
     let handleBatteryButton = () => {
@@ -195,13 +199,10 @@ function Map() {
     // function to make elevation request
     let elevationRequest = () => {
         console.log("elevationRequest called");
-        console.log("path: " + JSON.stringify(path));
-        console.log("sample: " + Number(path.length));
+        console.log("path: " + JSON.stringify(path.path));
+        console.log("sample: " + path.samples);
 
-        let pathElevation = elevator.getElevationAlongPath({
-            path: path,
-            samples: samples
-        }, (results, status) => {
+        elevator.getElevationAlongPath(path, (results, status) => {
             if (status == "OK") {
                 console.log("status OK");
                 console.log("results: " + JSON.stringify(results));
@@ -442,7 +443,7 @@ function Map() {
                                                         onClick={handleBatteryButton}
                                                         variant="primary"
                                                         target="_blank">
-                                                            Battery Calculation
+                                                            Battery
                                                         </Button>
                                                     </div>
                                                 </InfoWindow>

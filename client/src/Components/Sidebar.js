@@ -66,7 +66,8 @@ function Sidebar() {
     }
 
     let handleBatteryButton = () => {
-        console.log("handleBatteryButton (Sidebar) called")
+        console.log("handleBatteryButton called");
+
     }
 
     return (
@@ -148,7 +149,7 @@ function Sidebar() {
                                                     onClick={handleBatteryButton}
                                                     variant="primary"
                                                     target="_blank">
-                                                        Battery Calculation
+                                                        Battery
                                                 </Button>
                                             </Card.Body>
                                         </Card>
