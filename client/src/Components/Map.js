@@ -14,7 +14,7 @@ import FaveContext from "./ContextProviders/favorites-context";
 import {IoStar, IoStarOutline} from 'react-icons/io5';
 import FilterContext from "./ContextProviders/filter-context";
 import PathContext from "./ContextProviders/path-context";
-
+import ElevContext from './ContextProviders/elevation-context';
 
 function Map() {
     
@@ -26,6 +26,7 @@ function Map() {
     let { favorites, setFavorites } = React.useContext(FaveContext);
     let { filter, setFilter } = React.useContext(FilterContext);
     let { path, setPath } = React.useContext(PathContext);
+    let { elevations, setElevations } = React.useContext(ElevContext);
 
     let getArray = JSON.parse(localStorage.getItem('favorites') || '0');
 
@@ -201,7 +202,8 @@ function Map() {
                 console.log("status OK");
                 console.log("results: " + JSON.stringify(results));
 
-                // figure out how to send this information to MongoDB database
+                // update elevations state
+                setElevations(results);
             } else {
                 console.log("status not OK");
             }

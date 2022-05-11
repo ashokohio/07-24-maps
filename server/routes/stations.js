@@ -51,7 +51,7 @@ router.patch("/:id", getStation, async (req, res) => {
         }
     }
     if (req.body.status != null) {
-        res.station.status =req.body.status
+        res.station.status = req.body.status
     }
 
     try {

@@ -16,11 +16,12 @@ import FaveContext from './Components/ContextProviders/favorites-context';
 import axios from "axios";
 import FilterContext from './Components/ContextProviders/filter-context';
 import PathContext from './Components/ContextProviders/path-context';
+import ElevContext from './Components/ContextProviders/elevation-context';
 
 const lib = ['places'];
 const key = "AIzaSyAwqWc8omSLAp2pwMJBLN5vsHrH4ZUYIlI"; // Google Maps API key
-// const baseURL = "https://raw.githubusercontent.com/liangkelei/station-data-01/main/data.json";
-const baseURL = `${process.env.REACT_APP_API_URL}/stations`;
+// const stationsURL = "https://raw.githubusercontent.com/liangkelei/station-data-01/main/data.json";
+const stationsURL = `${process.env.REACT_APP_API_URL}/stations`;
 
 const App = () => {
 
@@ -50,17 +51,31 @@ const App = () => {
   const [path, setPath] = useState(null);
   const path_value = { path, setPath };
 
+  // parent state: elevations
+  const [elevations, setElevations] = useState([]);
+  const elev_value = { elevations, setElevations };
 
+  // useEffect to get stations database
   React.useEffect(() => {
-    axios.get(baseURL).then((response) => {
+    axios.get(stationsURL).then((response) => {
         setMarkerArray(response.data);
-        console.log("here");
+        console.log("got stations database");
     });
   }, []);
 
-  if (!markerArray) return null;
+  // updating paths database on elevations state change
+  const pathURL = `${process.env.REACT_APP_API_URL}/paths`;
 
-  
+  React.useEffect(() => {
+    if (elevations.length > 0) {
+      axios.post(pathURL, {points: elevations}).then((response) => {
+        console.log("posted to paths database");
+      });      
+    }
+  }, [elevations]);
+
+  // before markerArray is filled with stations data, don't show anything!
+  if (!markerArray) return null;
 
   // using Bootstrap Container, Row, and Col to make layout
   // MarkerProvider provides an array of charging station data
@@ -75,12 +90,14 @@ const App = () => {
                 <FaveContext.Provider value={fave_value}>
                   <FilterContext.Provider value={filt_value}>
                     <PathContext.Provider value={path_value}>
-                        <LoadScript googleMapsApiKey={key} libraries={lib}>
-                          <Row>
-                            <Col><Map /></Col>
-                            <Col><Sidebar /></Col>
-                          </Row>
-                        </LoadScript>
+                      <ElevContext.Provider value={elev_value}>
+                          <LoadScript googleMapsApiKey={key} libraries={lib}>
+                            <Row>
+                              <Col><Map /></Col>
+                              <Col><Sidebar /></Col>
+                            </Row>
+                          </LoadScript>                        
+                      </ElevContext.Provider>
                     </PathContext.Provider>
                   </FilterContext.Provider>
                 </FaveContext.Provider>

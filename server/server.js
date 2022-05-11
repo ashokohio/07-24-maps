@@ -17,4 +17,7 @@ app.use(express.json())
 const stationsRouter = require("./routes/stations")
 app.use("/stations", stationsRouter)
 
+const pathsRouter = require("./routes/paths")
+app.use("/paths", pathsRouter)
+
 app.listen(process.env.PORT || 4000, () => console.log("Server Started"))
