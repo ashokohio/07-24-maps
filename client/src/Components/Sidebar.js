@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import MarkerContext from "./ContextProviders/marker-context";
 import SelectionContext from "./ContextProviders/selection-context";
-import { Card, Button, Container, Row } from 'react-bootstrap';
+import { Card, Button, Container, Row, Badge } from 'react-bootstrap';
 import DistContext from './ContextProviders/distance-context';
 import DuraContext from './ContextProviders/duration-context';
 import FaveContext from './ContextProviders/favorites-context';
@@ -145,11 +145,11 @@ function Sidebar() {
                                                 <Card.Title
                                                 bsPrefix="card-title">
                                                     {item.name}
-                                                    <Button 
-                                                        disabled size="sm"
-                                                        style={{margin: '0px 10px 2px 10px', padding: '0px 5px 0px 5px'}}
-                                                        variant={variant}>{item.status}
-                                                    </Button>
+                                                    <Badge 
+                                                        pill
+                                                        style={{margin: '0px 10px 2px 10px', padding: '2px 7px 2px 7px'}}
+                                                        bg={variant}>{item.status}
+                                                    </Badge>
                                                     {
                                                         favorites.includes(item.id) ? 
                                                             (<IoStar
@@ -194,14 +194,11 @@ function Sidebar() {
                                                 <Card.Title
                                                 bsPrefix="card-title">
                                                     {item.name}
-                                                    <Button
-                                                    style={{margin: '0px 10px 2px 10px', padding: '0px 5px 0px 5px'}}
-                                                    disabled
-                                                    size="sm"
-                                                    variant={variant}
-                                                    >
-                                                        {item.status}
-                                                    </Button>
+                                                    <Badge 
+                                                        pill
+                                                        style={{margin: '0px 10px 2px 10px', padding: '2px 7px 2px 7px'}}
+                                                        bg={variant}>{item.status}
+                                                    </Badge>
                                                     {
                                                         favorites.includes(item.id) && (
                                                             <IoStar

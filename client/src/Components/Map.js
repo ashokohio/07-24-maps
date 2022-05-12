@@ -8,7 +8,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import DistContext from "./ContextProviders/distance-context";
 import DuraContext from './ContextProviders/duration-context';
-import { Container, Row, Col, DropdownButton, Dropdown } from "react-bootstrap";
+import { Container, Row, Col, DropdownButton, Dropdown, Badge } from "react-bootstrap";
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import FaveContext from "./ContextProviders/favorites-context";
 import {IoStar, IoStarOutline} from 'react-icons/io5';
@@ -408,13 +408,11 @@ function Map() {
                                             (
                                                 <InfoWindow>
                                                     <div>
-                                                        <h6>{item.name} <Button
-                                                        disabled size="sm"
-                                                        style={{margin: '1px 8px 2px 8px', padding: '0px 5px 0px 5px'}}
-                                                        variant={variant}
-                                                        >
-                                                            {item.status}
-                                                        </Button>
+                                                        <h6>{item.name} <Badge 
+                                                        pill
+                                                        style={{margin: '0px 8px 2px 6px', padding: '2px 7px 2px 7px'}}
+                                                        bg={variant}>{item.status}
+                                                    </Badge>
                                                         {
                                                             favorites.includes(item.id) ? 
                                                                 (<IoStar
