@@ -20,7 +20,8 @@ router.get("/:id", getPath, (req, res) => {
 // Creating one
 router.post("/", async (req, res) => {
     const path = new Path({
-        points: req.body.points
+        points: req.body.points,
+        polyline: req.body.polyline
     })
 
     try {
@@ -35,6 +36,9 @@ router.post("/", async (req, res) => {
 router.patch("/:id", getPath, async(req, res) => {
     if (req.body.points != null) {
         res.path.points = req.body.points
+    }
+    if (req.body.polyline != null) {
+        res.path.polyline = req.body.polyline
     }
     
     try {

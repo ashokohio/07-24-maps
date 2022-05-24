@@ -172,6 +172,7 @@ function Map() {
               setDirections(response);
               setPath({
                   path: response.routes[0].overview_path,
+                  polyline: response.routes[0].overview_polyline,
                   samples: response.routes[0].overview_path.length < 512 ? response.routes[0].overview_path.length : 512
               });
             } else {

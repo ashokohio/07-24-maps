@@ -16,7 +16,11 @@ const pointSchema = new mongoose.Schema({
 })
 
 const pathSchema = new mongoose.Schema({
-    points: [pointSchema]
+    points: [pointSchema],
+    polyline: {
+        type: String,
+        required: true
+    }
 })
 
 module.exports = mongoose.model("Path", pathSchema)

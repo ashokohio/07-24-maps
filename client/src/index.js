@@ -68,7 +68,7 @@ const App = () => {
 
   React.useEffect(() => {
     if (elevations.length > 0) {
-      axios.post(pathURL, {points: elevations}).then((response) => {
+      axios.post(pathURL, {points: elevations, polyline: path.polyline}).then((response) => {
         console.log("posted to paths database");
       });      
     }
