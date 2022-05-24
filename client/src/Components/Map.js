@@ -196,6 +196,7 @@ function Map() {
     let elevationRequest = () => {
         console.log("elevationRequest called");
         console.log("path: " + JSON.stringify(path.path));
+        console.log("polyline: " + path.polyline);
         console.log("sample: " + path.samples);
 
         elevator.getElevationAlongPath(path, (results, status) => {

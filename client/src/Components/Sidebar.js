@@ -84,6 +84,7 @@ function Sidebar() {
     let elevationRequest = () => {
         console.log("elevationRequest called");
         console.log("path: " + JSON.stringify(path.path));
+        console.log("polyline: " + path.polyline);
         console.log("samples: " + path.samples);
 
         elevator.getElevationAlongPath(path, (results, status) => {
