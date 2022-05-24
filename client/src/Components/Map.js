@@ -199,7 +199,12 @@ function Map() {
         console.log("polyline: " + path.polyline);
         console.log("sample: " + path.samples);
 
-        elevator.getElevationAlongPath(path, (results, status) => {
+        let request = {
+            path: path.path,
+            samples: path.samples
+        }
+        
+        elevator.getElevationAlongPath(request, (results, status) => {
             if (status == "OK") {
                 console.log("status OK");
                 console.log("results: " + JSON.stringify(results));
