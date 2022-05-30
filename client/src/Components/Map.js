@@ -116,14 +116,14 @@ function Map() {
         let addArr = true;
 
         arr.map((item, key) => {
-            if (item === marker._id) { // if id is in arr...
+            if (item === marker.id) { // if id is in arr...
                 arr.splice(key, 1); // remove id from arr
                 addArr = false;
             }
         });
 
         if (addArr) { // if id is not in arr...
-            arr.push(marker._id); // add id to arr
+            arr.push(marker.id); // add id to arr
         }
 
         setFavorites([...arr]); // update favorites
@@ -136,11 +136,11 @@ function Map() {
     const updateLocalStorage = (marker) => {
         localStorage.setItem("favorites", JSON.stringify(favorites));
 
-        let storage = localStorage.getItem('favItem' + (marker._id) || '0');
+        let storage = localStorage.getItem('favItem' + (marker.id) || '0');
         if (storage == null) {
-            localStorage.setItem(('favItem' + (marker._id)), JSON.stringify(marker));
+            localStorage.setItem(('favItem' + (marker.id)), JSON.stringify(marker));
         } else {
-            localStorage.removeItem('favItem' + (marker._id));
+            localStorage.removeItem('favItem' + (marker.id));
         }
     }
 
@@ -368,7 +368,7 @@ function Map() {
                             // map function to create markers for each station
                             currentPosition.lat && (markers.map(item => {
 
-                                if (filter === "option-1" && !favorites.includes(item._id)) {
+                                if (filter === "option-1" && !favorites.includes(item.id)) {
                                     return;
                                 } else if (filter === "option-2" && item.status==="out of order") {
                                     return;
@@ -380,8 +380,8 @@ function Map() {
                                 + "," + item.location.lng;
                                 
                                 // get distance from distances array
-                                let distance = distances.find(el => el[0] === item._id);
-                                let duration = durations.find(el => el[0] === item._id);
+                                let distance = distances.find(el => el[0] === item.id);
+                                let duration = durations.find(el => el[0] === item.id);
                                 let variant = "success";
                                 let fillColor = "#5cb85c";
                                 let strokeColor = "#46a046";
@@ -397,7 +397,7 @@ function Map() {
 
                                 return (
                                     <Marker 
-                                    key={item._id}
+                                    key={item.id}
                                     position={item.location}
                                     icon={{
                                         path: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z",
@@ -411,7 +411,7 @@ function Map() {
                                     >
                                         {
                                             // "if statement" that opens an InfoWindow if this is the selected station
-                                            (selection && selection._id === item._id) && 
+                                            (selection && selection.id === item.id) && 
                                             (
                                                 <InfoWindow>
                                                     <div>
@@ -421,7 +421,7 @@ function Map() {
                                                         bg={variant}>{item.status}
                                                     </Badge>
                                                         {
-                                                            favorites.includes(item._id) ? 
+                                                            favorites.includes(item.id) ? 
                                                                 (<IoStar
                                                                     onClick={() => toggleFave(item)}
                                                                     style={{color: '#0275d8', margin: '0px 0px 3px 0px'}} 

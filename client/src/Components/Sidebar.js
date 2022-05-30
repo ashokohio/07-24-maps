@@ -41,14 +41,14 @@ function Sidebar() {
         let addArr = true;
 
         arr.map((item, key) => {
-            if (item === marker._id) { // if id is in arr...
+            if (item === marker.id) { // if id is in arr...
                 arr.splice(key, 1); // remove id from arr
                 addArr = false;
             }
         });
 
         if (addArr) { // if id is not in arr...
-            arr.push(marker._id); // add id to arr
+            arr.push(marker.id); // add id to arr
         }
 
         setFavorites([...arr]); // update favorites
@@ -61,11 +61,11 @@ function Sidebar() {
     const updateLocalStorage = (marker) => {
         localStorage.setItem("favorites", JSON.stringify(favorites));
 
-        let storage = localStorage.getItem('favItem' + (marker._id) || '0');
+        let storage = localStorage.getItem('favItem' + (marker.id) || '0');
         if (storage == null) {
-            localStorage.setItem(('favItem' + (marker._id)), JSON.stringify(marker));
+            localStorage.setItem(('favItem' + (marker.id)), JSON.stringify(marker));
         } else {
-            localStorage.removeItem('favItem' + (marker._id));
+            localStorage.removeItem('favItem' + (marker.id));
         }
     }
 
@@ -117,13 +117,13 @@ function Sidebar() {
                             && ([...markers]
                                 .sort(
                                     function(a, b) {
-                                        return parseFloat( distances.distances.find( el => el[0] === a._id )[1], 10 )
-                                        - parseFloat( distances.distances.find( el => el[0] === b._id )[1], 10 );
+                                        return parseFloat( distances.distances.find( el => el[0] === a.id )[1], 10 )
+                                        - parseFloat( distances.distances.find( el => el[0] === b.id )[1], 10 );
                                     }
                                 )
                                 .map( item => {
 
-                                if (filter === "option-1" && !favorites.includes(item._id)) {
+                                if (filter === "option-1" && !favorites.includes(item.id)) {
                                     return;
                                 } else if (filter === "option-2" && item.status === "out of order") {
                                     return;
@@ -133,16 +133,16 @@ function Sidebar() {
                                 + item.location.lat + ","
                                 + item.location.lng;
                                 // get distance from distances array
-                                let distance = distances.distances.find(el => el[0] === item._id);
-                                let duration = durations.durations.find(el => el[0] === item._id);
+                                let distance = distances.distances.find(el => el[0] === item.id);
+                                let duration = durations.durations.find(el => el[0] === item.id);
                                 let variant = "success";
                                 if (item.status === "in use") variant = "warning";
                                 else if (item.status === "out of order") variant = "danger";
 
                                 // if item is the selected station, return the "selected" info card
-                                if (selection && item._id === selection._id) {
+                                if (selection && item.id === selection.id) {
                                     return (
-                                        <Card key={item._id}
+                                        <Card key={item.id}
                                         style={{width: '95%', margin: '5px'}}
                                         onClick={() => handleClick(item)}
                                         >
@@ -157,7 +157,7 @@ function Sidebar() {
                                                         bg={variant}>{item.status}
                                                     </Badge>
                                                     {
-                                                        favorites.includes(item._id) ? 
+                                                        favorites.includes(item.id) ? 
                                                             (<IoStar
                                                                 onClick={() => toggleFave(item)}
                                                                 style={{color: '#0275d8', margin: '0px 0px 3px 0px'}} 
@@ -190,7 +190,7 @@ function Sidebar() {
                                     )
                                 } else { // else, return the greyed info card
                                     return (
-                                        <Card key={item._id}
+                                        <Card key={item.id}
                                         bg="secondary"
                                         style={{width: '95%', margin: '5px'}}
                                         onClick={() => handleClick(item)}
@@ -206,7 +206,7 @@ function Sidebar() {
                                                         bg={variant}>{item.status}
                                                     </Badge>
                                                     {
-                                                        favorites.includes(item._id) && (
+                                                        favorites.includes(item.id) && (
                                                             <IoStar
                                                                 style={{color: '#0275d8', margin: '0px 0px 3px 0px'}} 
                                                             />
