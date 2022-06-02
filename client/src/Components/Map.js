@@ -8,7 +8,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import DistContext from "./ContextProviders/distance-context";
 import DuraContext from './ContextProviders/duration-context';
-import { Container, Row, Col, DropdownButton, Dropdown, Badge, Popover } from "react-bootstrap";
+import { Container, Row, Col, DropdownButton, Dropdown, Badge, Popover, OverlayTrigger } from "react-bootstrap";
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import FaveContext from "./ContextProviders/favorites-context";
 import {IoStar, IoStarOutline} from 'react-icons/io5';
