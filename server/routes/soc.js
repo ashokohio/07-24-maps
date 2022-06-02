@@ -20,8 +20,10 @@ router.get("/:id", getValue, (req, res) => {
 // Creating one
 router.post("/", async (req, res) => {
     const value = new Value({
-        data: req.body.data
-        
+        data: {
+            points: req.body.data.points,
+            polyline: req.body.data.polyline
+        }
     })
 
     try {
@@ -34,8 +36,11 @@ router.post("/", async (req, res) => {
 
 // Updating one
 router.patch("/:id", getValue, async(req, res) => {
-    if (req.body.data != null) {
-        res.value.data = req.body.data
+    if (req.body.data.points != null) {
+        res.value.data.points = req.body.data.points
+    }
+    if (req.body.data.polyline != null) {
+        res.value.data.polyline = req.body.data.polyline
     }
     
     try {
