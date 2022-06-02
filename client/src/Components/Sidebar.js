@@ -34,7 +34,6 @@ function Sidebar() {
 
     // function to updated selected station
     const handleClick = (marker) => {
-        setClicked(false);
         setSelection(marker);
     }
 
@@ -80,7 +79,7 @@ function Sidebar() {
         console.log("handleBatteryButton called");
 
         setClicked(true);
-        
+
         // make elevation request
         elevationRequest();
     }
