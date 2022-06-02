@@ -22,6 +22,7 @@ function Sidebar() {
     let { filter, setFilter } = React.useContext(FilterContext);
     let { path, setPath } = React.useContext(PathContext);
     let { elevations, setElevations } = React.useContext(ElevContext);
+    let { clicked, setClicked } = React.useContext(ClickedContext);
 
     let getArray = JSON.parse(localStorage.getItem('favorites') || '0');
 
@@ -33,6 +34,7 @@ function Sidebar() {
 
     // function to updated selected station
     const handleClick = (marker) => {
+        setClicked(false);
         setSelection(marker);
     }
 
@@ -77,6 +79,7 @@ function Sidebar() {
     let handleBatteryButton = () => {
         console.log("handleBatteryButton called");
 
+        setClicked(true);
         // make elevation request
         elevationRequest();
     }
@@ -131,6 +134,11 @@ function Sidebar() {
         }
 
         return status;
+    }
+
+    // NEW function to handle results button
+    let handleResultsButton = () => {
+        console.log("handleResultsButton");
     }
 
     return (
@@ -212,6 +220,16 @@ function Sidebar() {
                                                     target="_blank">
                                                         Battery
                                                 </Button>
+                                                {
+                                                    (clicked) && <Button
+                                                    style={{marginLeft: "5px",}}
+                                                    onClick={handleResultsButton}
+                                                    variant="primary"
+                                                    target="_blank"
+                                                    >
+                                                        Results
+                                                    </Button>
+                                                }
                                             </Card.Body>
                                         </Card>
                                     )

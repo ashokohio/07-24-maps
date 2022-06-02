@@ -78,8 +78,8 @@ function Map() {
 
     // function to update selected station
     const handleToggleOpen = (marker) => {
-        setSelection(marker);
         setClicked(false);
+        setSelection(marker);
     }
 
     // travel mode buttons
@@ -248,6 +248,11 @@ function Map() {
         }
 
         return status;
+    }
+
+    // NEW function to handle results button
+    let handleResultsButton = () => {
+        console.log("handleResultsButton");
     }
 
     return (
