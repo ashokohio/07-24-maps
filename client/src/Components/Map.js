@@ -15,6 +15,7 @@ import {IoStar, IoStarOutline} from 'react-icons/io5';
 import FilterContext from "./ContextProviders/filter-context";
 import PathContext from "./ContextProviders/path-context";
 import ElevContext from './ContextProviders/elevation-context';
+import ClickedContext from "./ContextProviders/clicked-context";
 
 function Map() {
     
@@ -27,6 +28,7 @@ function Map() {
     let { filter, setFilter } = React.useContext(FilterContext);
     let { path, setPath } = React.useContext(PathContext);
     let { elevations, setElevations } = React.useContext(ElevContext);
+    let { clicked, setClicked } = React.useContext(ClickedContext);
 
     let getArray = JSON.parse(localStorage.getItem('favorites') || '0');
 
@@ -77,6 +79,7 @@ function Map() {
     // function to update selected station
     const handleToggleOpen = (marker) => {
         setSelection(marker);
+        setClicked(false);
     }
 
     // travel mode buttons
@@ -187,6 +190,9 @@ function Map() {
     // function to handle battery usage button
     let handleBatteryButton = () => {
         console.log("handleBatteryButton called");
+
+        // toggle clicked = true
+        setClicked(true);
 
         // make elevation request
         elevationRequest();
@@ -472,6 +478,16 @@ function Map() {
                                                         target="_blank">
                                                             Battery
                                                         </Button>
+                                                        {
+                                                            (clicked) && <Button
+                                                            style={{marginLeft: "5px",}}
+                                                            onClick={handleResultsButton}
+                                                            variant="primary"
+                                                            target="_blank"
+                                                            >
+                                                                Results
+                                                            </Button>
+                                                        }
                                                     </div>
                                                 </InfoWindow>
                                             )

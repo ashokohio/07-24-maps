@@ -9,6 +9,7 @@ import {IoStar, IoStarOutline} from 'react-icons/io5';
 import FilterContext from './ContextProviders/filter-context';
 import PathContext from './ContextProviders/path-context';
 import ElevContext from './ContextProviders/elevation-context';
+import ClickedContext from './ContextProviders/clicked-context';
 
 function Sidebar() {
 

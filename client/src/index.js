@@ -17,6 +17,7 @@ import axios from "axios";
 import FilterContext from './Components/ContextProviders/filter-context';
 import PathContext from './Components/ContextProviders/path-context';
 import ElevContext from './Components/ContextProviders/elevation-context';
+import ClickedContext from './Components/ContextProviders/clicked-context';
 
 const lib = ['places'];
 const key = "AIzaSyAwqWc8omSLAp2pwMJBLN5vsHrH4ZUYIlI"; // Google Maps API key
@@ -75,6 +76,20 @@ const App = () => {
     }
   }, [elevations]);
 
+  // NEW parent state: battery button clicked
+  const [clicked, setClicked] = useState(false);
+  const clicked_value = {clicked, setClicked};
+
+  // getting soc database
+  /*const socURL = `${process.env.REACT_APP_API_URL}/soc`;
+
+  React.useEffect(() => {
+    axios.get(socURL).then((response) => {
+        //setMarkerArray(response.data);
+        console.log("got soc database");
+    });
+  }, []);*/
+
   // before markerArray is filled with chargers data, don't show anything!
   if (!markerArray) return null;
 
@@ -92,12 +107,14 @@ const App = () => {
                   <FilterContext.Provider value={filt_value}>
                     <PathContext.Provider value={path_value}>
                       <ElevContext.Provider value={elev_value}>
-                          <LoadScript googleMapsApiKey={key} libraries={lib}>
-                            <Row>
-                              <Col><Map /></Col>
-                              <Col><Sidebar /></Col>
-                            </Row>
-                          </LoadScript>                        
+                        <ClickedContext.Provider value={clicked_value}>
+                            <LoadScript googleMapsApiKey={key} libraries={lib}>
+                              <Row>
+                                <Col><Map /></Col>
+                                <Col><Sidebar /></Col>
+                              </Row>
+                            </LoadScript>                        
+                        </ClickedContext.Provider>                      
                       </ElevContext.Provider>
                     </PathContext.Provider>
                   </FilterContext.Provider>
