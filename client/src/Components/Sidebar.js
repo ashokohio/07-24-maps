@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import MarkerContext from "./ContextProviders/marker-context";
 import SelectionContext from "./ContextProviders/selection-context";
-import { Card, Button, Container, Row, Badge } from 'react-bootstrap';
+import { Card, Button, Container, Row, Badge, Popover, OverlayTrigger } from 'react-bootstrap';
 import DistContext from './ContextProviders/distance-context';
 import DuraContext from './ContextProviders/duration-context';
 import FaveContext from './ContextProviders/favorites-context';
@@ -80,6 +80,10 @@ function Sidebar() {
 
         //setClicked(true);
 
+        // toggle "results"
+        //if (clicked) setClicked(false);
+        //else setClicked(true);
+
         // make elevation request
         elevationRequest();
     }
@@ -141,6 +145,16 @@ function Sidebar() {
         console.log("handleResultsButton");
 
     }
+
+    // NEW popover
+    const popover = (
+        <Popover id="popover-basic">
+            <Popover.Header as="h3">Battery Results</Popover.Header>
+            <Popover.Body>
+                Wheelchair battery will last along this route!
+            </Popover.Body>
+        </Popover>
+    )
 
     return (
         <div>
@@ -214,23 +228,16 @@ function Sidebar() {
                                                 >
                                                     Navigate
                                                 </Button>
-                                                <Button
-                                                    style={{marginLeft: "5px",}}
-                                                    onClick={handleBatteryButton}
-                                                    variant="primary"
-                                                    target="_blank">
-                                                        Battery
-                                                </Button>
-                                                {
-                                                    (clicked) && <Button
-                                                    style={{marginLeft: "5px",}}
-                                                    onClick={handleResultsButton}
-                                                    variant="primary"
-                                                    target="_blank"
-                                                    >
-                                                        Results
+                                                <OverlayTrigger trigger="click" placement="right" overlay={popover}>
+                                                    <Button
+                                                        style={{marginLeft: "5px",}}
+                                                        onClick={handleBatteryButton}
+                                                        variant="primary"
+                                                        target="_blank">
+                                                            Battery
                                                     </Button>
-                                                }
+                                                </OverlayTrigger>
+                                                
                                             </Card.Body>
                                         </Card>
                                     )
