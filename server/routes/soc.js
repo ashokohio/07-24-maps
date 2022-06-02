@@ -4,6 +4,7 @@ const Value = require("../models/value")
 
 // Getting all
 router.get("/", async (req, res) => {
+    console.log("here");
     try {
         const values = await Value.find()
         res.json(values)
