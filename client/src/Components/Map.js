@@ -8,7 +8,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import DistContext from "./ContextProviders/distance-context";
 import DuraContext from './ContextProviders/duration-context';
-import { Container, Row, Col, DropdownButton, Dropdown, Badge } from "react-bootstrap";
+import { Container, Row, Col, DropdownButton, Dropdown, Badge, Popover } from "react-bootstrap";
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import FaveContext from "./ContextProviders/favorites-context";
 import {IoStar, IoStarOutline} from 'react-icons/io5';
@@ -255,6 +255,16 @@ function Map() {
         console.log("handleResultsButton");
     }
 
+    // NEW popover
+    const popover = (
+        <Popover id="popover-basic">
+            <Popover.Header as="h3">Battery Results</Popover.Header>
+            <Popover.Body>
+                Wheelchair battery will last along this route!
+            </Popover.Body>
+        </Popover>
+    )
+
     return (
         <div>
             <Container>
@@ -476,13 +486,15 @@ function Map() {
                                                         >
                                                             Navigate
                                                         </Button>
-                                                        <Button
-                                                        style={{marginLeft: "5px",}}
-                                                        onClick={handleBatteryButton}
-                                                        variant="primary"
-                                                        target="_blank">
-                                                            Battery
-                                                        </Button>
+                                                        <OverlayTrigger trigger="click" placement="right" overlay={popover}>
+                                                            <Button
+                                                            style={{marginLeft: "5px",}}
+                                                            onClick={handleBatteryButton}
+                                                            variant="primary"
+                                                            target="_blank">
+                                                                Battery
+                                                            </Button>
+                                                        </OverlayTrigger>
                                                         {
                                                             (clicked) && <Button
                                                             style={{marginLeft: "5px",}}
