@@ -80,6 +80,7 @@ function Sidebar() {
         console.log("handleBatteryButton called");
 
         setClicked(true);
+        
         // make elevation request
         elevationRequest();
     }
@@ -139,6 +140,7 @@ function Sidebar() {
     // NEW function to handle results button
     let handleResultsButton = () => {
         console.log("handleResultsButton");
+
     }
 
     return (
