@@ -20,4 +20,7 @@ app.use("/stations", stationsRouter)
 const pathsRouter = require("./routes/paths")
 app.use("/paths", pathsRouter)
 
+const chargersRouter = require("./routes/chargers")
+app.use("/chargers", chargersRouter)
+
 app.listen(process.env.PORT || 4000, () => console.log("Server Started"))
