@@ -23,7 +23,7 @@ app.use("/paths", pathsRouter)
 const chargersRouter = require("./routes/chargers")
 app.use("/chargers", chargersRouter)
 
-const socRouter = require("./routes/soc")
+const socRouter = require("./routes/values")
 app.use("/soc", socRouter)
 
 app.listen(process.env.PORT || 4000, () => console.log("Server Started"))

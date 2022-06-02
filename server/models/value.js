@@ -33,4 +33,5 @@ const valueSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model("Value", valueSchema)
+// IMPORTANT: mongoose.model() automatically establishes lowercase, pluralized model name as the name of the collection... so you need a third argument if that's not the collection name!!
+module.exports = mongoose.model("Value", valueSchema, "soc")

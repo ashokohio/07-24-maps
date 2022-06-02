@@ -4,7 +4,6 @@ const Value = require("../models/value")
 
 // Getting all
 router.get("/", async (req, res) => {
-    console.log("here");
     try {
         const values = await Value.find()
         res.json(values)
@@ -21,10 +20,7 @@ router.get("/:id", getValue, (req, res) => {
 // Creating one
 router.post("/", async (req, res) => {
     const value = new Value({
-        data: {
-            points: req.body.data.points,
-            polyline: req.body.data.polyline
-        }
+        data: req.body.data
     })
 
     try {
@@ -37,11 +33,8 @@ router.post("/", async (req, res) => {
 
 // Updating one
 router.patch("/:id", getValue, async(req, res) => {
-    if (req.body.data.points != null) {
-        res.value.data.points = req.body.data.points
-    }
-    if (req.body.data.polyline != null) {
-        res.value.data.polyline = req.body.data.polyline
+    if (req.body.data != null) {
+        res.value.data = req.body.data
     }
     
     try {
