@@ -218,6 +218,32 @@ function Map() {
         );
     }
 
+    // NEW function to parse location {lat, lng} from gps_coordinates
+    let parseLocation = (charger) => {
+        console.log("in parseLocation");
+        let gps_arr = charger.gps_coordinates.split(", ");
+        let location = {
+            lat: parseFloat(gps_arr[0]),
+            lng: parseFloat(gps_arr[1])
+        }
+
+        return location;
+    }
+
+    // NEW function to return charger status
+    let parseStatus = (charger) => {
+        console.log("in parseStatus");
+        let status = "in use";
+
+        if (charger.state === "8" || charger.state === "12") {
+            status = "out of order";
+        } else if (charger.state === "1") {
+            status = "idle"
+        }
+
+        return status;
+    }
+
     return (
         <div>
             <Container>
@@ -312,7 +338,7 @@ function Map() {
                             (selection) && (
                                 <DirectionsService
                                  options={{
-                                     destination: selection.location,
+                                     destination: parseLocation(selection),
                                      origin: currentPosition,
                                      travelMode: modeValue
                                  }}
@@ -334,7 +360,7 @@ function Map() {
                         {currentPosition.lat && (
                         <DistanceMatrixService
                         options={{
-                            destinations: markers.map(station => station.location),
+                            destinations: markers.map(station => parseLocation(station)),
                             origins: [currentPosition],
                             travelMode: modeValue,
                             unitSystem: window.google.maps.UnitSystem.IMPERIAL,
@@ -370,14 +396,14 @@ function Map() {
 
                                 if (filter === "option-1" && !favorites.includes(item.id)) {
                                     return;
-                                } else if (filter === "option-2" && item.status==="out of order") {
+                                } else if (filter === "option-2" && parseStatus(item)==="out of order") {
                                     return;
                                 }
 
                                 // link directs to Google Maps route planner
                                 let mapLink = "https://www.google.com/maps/dir/?api=1&destination=" 
-                                + item.location.lat 
-                                + "," + item.location.lng;
+                                + parseLocation(item).lat 
+                                + "," + parseLocation(item).lng;
                                 
                                 // get distance from distances array
                                 let distance = distances.find(el => el[0] === item.id);
@@ -385,11 +411,11 @@ function Map() {
                                 let variant = "success";
                                 let fillColor = "#5cb85c";
                                 let strokeColor = "#46a046";
-                                if (item.status === "in use") {
+                                if (parseStatus(item) === "in use") {
                                     variant = "warning";
                                     fillColor = "#f0ad4e";
                                     strokeColor = "#eb9114";
-                                } else if (item.status === "out of order") {
+                                } else if (parseStatus(item) === "out of order") {
                                     variant = "danger";
                                     fillColor = "#d9534f";
                                     strokeColor = "#bc2e29";
@@ -398,7 +424,7 @@ function Map() {
                                 return (
                                     <Marker 
                                     key={item.id}
-                                    position={item.location}
+                                    position={parseLocation(item)}
                                     icon={{
                                         path: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z",
                                         fillColor: fillColor,
@@ -418,7 +444,7 @@ function Map() {
                                                         <h6>{item.name} <Badge 
                                                         pill
                                                         style={{margin: '0px 8px 2px 6px', padding: '2px 7px 2px 7px'}}
-                                                        bg={variant}>{item.status}
+                                                        bg={variant}>{parseStatus(item)}
                                                     </Badge>
                                                         {
                                                             favorites.includes(item.id) ? 

@@ -106,6 +106,32 @@ function Sidebar() {
         );
     } 
 
+    // NEW function to parse location {lat, lng} from gps_coordinates
+    let parseLocation = (selection) => {
+        console.log("in parseLocation");
+        let gps_arr = selection.gps_coordinates.split(", ");
+        let location = {
+            lat: parseFloat(gps_arr[0]),
+            lng: parseFloat(gps_arr[1])
+        }
+
+        return location;
+    }
+
+    // NEW function to return charger status
+    let parseStatus = (charger) => {
+        console.log("in parseStatus");
+        let status = "in use";
+
+        if (charger.state === "8" || charger.state === "12") {
+            status = "out of order";
+        } else if (charger.state === "1") {
+            status = "idle"
+        }
+
+        return status;
+    }
+
     return (
         <div>
             <Container>
@@ -125,19 +151,19 @@ function Sidebar() {
 
                                 if (filter === "option-1" && !favorites.includes(item.id)) {
                                     return;
-                                } else if (filter === "option-2" && item.status === "out of order") {
+                                } else if (filter === "option-2" && parseStatus(item) === "out of order") {
                                     return;
                                 }
                                 // link directs to Google Maps route planner
                                 let mapLink = "https://www.google.com/maps/dir/?api=1&destination="
-                                + item.location.lat + ","
-                                + item.location.lng;
+                                + parseLocation(item).lat + ","
+                                + parseLocation(item).lng;
                                 // get distance from distances array
                                 let distance = distances.distances.find(el => el[0] === item.id);
                                 let duration = durations.durations.find(el => el[0] === item.id);
                                 let variant = "success";
-                                if (item.status === "in use") variant = "warning";
-                                else if (item.status === "out of order") variant = "danger";
+                                if (parseStatus(item) === "in use") variant = "warning";
+                                else if (parseStatus(item) === "out of order") variant = "danger";
 
                                 // if item is the selected station, return the "selected" info card
                                 if (selection && item.id === selection.id) {
@@ -154,7 +180,7 @@ function Sidebar() {
                                                     <Badge 
                                                         pill
                                                         style={{margin: '0px 10px 2px 10px', padding: '2px 7px 2px 7px'}}
-                                                        bg={variant}>{item.status}
+                                                        bg={variant}>{parseStatus(item)}
                                                     </Badge>
                                                     {
                                                         favorites.includes(item.id) ? 
@@ -203,7 +229,7 @@ function Sidebar() {
                                                     <Badge 
                                                         pill
                                                         style={{margin: '0px 10px 2px 10px', padding: '2px 7px 2px 7px'}}
-                                                        bg={variant}>{item.status}
+                                                        bg={variant}>{parseStatus(item)}
                                                     </Badge>
                                                     {
                                                         favorites.includes(item.id) && (

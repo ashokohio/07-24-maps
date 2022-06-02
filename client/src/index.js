@@ -21,7 +21,8 @@ import ElevContext from './Components/ContextProviders/elevation-context';
 const lib = ['places'];
 const key = "AIzaSyAwqWc8omSLAp2pwMJBLN5vsHrH4ZUYIlI"; // Google Maps API key
 // const stationsURL = "https://raw.githubusercontent.com/liangkelei/station-data-01/main/data.json";
-const stationsURL = `${process.env.REACT_APP_API_URL}/stations`;
+// const stationsURL = `${process.env.REACT_APP_API_URL}/stations`;
+const chargersURL = `${process.env.REACT_APP_API_URL}/chargers`;
 
 const App = () => {
 
@@ -39,6 +40,14 @@ const App = () => {
   // parent state: markers (GET request)
   const [markerArray, setMarkerArray] = useState(null);
 
+  // UPDATED useEffect to get stations database
+  React.useEffect(() => {
+    axios.get(chargersURL).then((response) => {
+        setMarkerArray(response.data);
+        console.log("got chargers database");
+    });
+  }, []);
+
   // parent state: favorites
   const [favorites, setFavorites] = useState([]);
   const fave_value = { favorites, setFavorites };
@@ -55,14 +64,6 @@ const App = () => {
   const [elevations, setElevations] = useState([]);
   const elev_value = { elevations, setElevations };
 
-  // useEffect to get stations database
-  React.useEffect(() => {
-    axios.get(stationsURL).then((response) => {
-        setMarkerArray(response.data);
-        console.log("got stations database");
-    });
-  }, []);
-
   // updating paths database on elevations state change
   const pathURL = `${process.env.REACT_APP_API_URL}/paths`;
 
@@ -74,7 +75,7 @@ const App = () => {
     }
   }, [elevations]);
 
-  // before markerArray is filled with stations data, don't show anything!
+  // before markerArray is filled with chargers data, don't show anything!
   if (!markerArray) return null;
 
   // using Bootstrap Container, Row, and Col to make layout
