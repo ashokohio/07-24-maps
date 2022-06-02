@@ -78,7 +78,7 @@ function Map() {
 
     // function to update selected station
     const handleToggleOpen = (marker) => {
-        setClicked(false);
+        //setClicked(false);
         setSelection(marker);
     }
 
@@ -192,7 +192,7 @@ function Map() {
         console.log("handleBatteryButton called");
 
         // toggle clicked = true
-        setClicked(true);
+        //setClicked(true);
 
         // make elevation request
         elevationRequest();

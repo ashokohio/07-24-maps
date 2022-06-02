@@ -78,7 +78,7 @@ function Sidebar() {
     let handleBatteryButton = () => {
         console.log("handleBatteryButton called");
 
-        setClicked(true);
+        //setClicked(true);
 
         // make elevation request
         elevationRequest();
