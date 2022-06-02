@@ -6,7 +6,7 @@ const Charger = require("../models/charger")
 router.get("/", async (req, res) => {
     try {
         const chargers = await Charger.find()
-        res.json(charger)
+        res.json(chargers)
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
