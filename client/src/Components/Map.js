@@ -486,15 +486,13 @@ function Map() {
                                                         >
                                                             Navigate
                                                         </Button>
-                                                        <OverlayTrigger trigger="click" placement="right" overlay={popover}>
-                                                            <Button
-                                                            style={{marginLeft: "5px",}}
-                                                            onClick={handleBatteryButton}
-                                                            variant="primary"
-                                                            target="_blank">
-                                                                Battery
-                                                            </Button>
-                                                        </OverlayTrigger>
+                                                        <Button
+                                                        style={{marginLeft: "5px",}}
+                                                        onClick={handleBatteryButton}
+                                                        variant="primary"
+                                                        target="_blank">
+                                                            Battery
+                                                        </Button>
                                                         {
                                                             (clicked) && <Button
                                                             style={{marginLeft: "5px",}}
