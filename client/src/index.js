@@ -20,7 +20,7 @@ import ElevContext from './Components/ContextProviders/elevation-context';
 import ClickedContext from './Components/ContextProviders/clicked-context';
 
 const lib = ['places'];
-const key = "AIzaSyAwqWc8omSLAp2pwMJBLN5vsHrH4ZUYIlI"; // Google Maps API key
+const key = "INSERT API KEY"; // Google Maps API key
 // const stationsURL = "https://raw.githubusercontent.com/liangkelei/station-data-01/main/data.json";
 // const stationsURL = `${process.env.REACT_APP_API_URL}/stations`;
 const chargersURL = `${process.env.REACT_APP_API_URL}/chargers`;
